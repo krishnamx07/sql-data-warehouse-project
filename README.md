@@ -2,98 +2,85 @@
 
 Welcome to the **Data Warehouse and Analytics Project** repository! 🚀
 
-This project demonstrates the end-to-end development of a modern Data Warehouse using SQL Server. The solution follows the Medallion Architecture approach, transforming raw ERP and CRM data into a structured, analytics-ready model that supports business intelligence, reporting, and decision-making.
+This project demonstrates the design and implementation of a modern Data Warehouse using SQL Server. The solution consolidates data from multiple source systems (ERP and CRM), transforms raw datasets into clean and standardized information, and delivers business-ready analytical models for reporting and decision-making.
 
-The project showcases practical data engineering concepts including data ingestion, data cleansing, transformation, dimensional modeling, and analytical reporting. It serves as a portfolio project demonstrating industry-standard Data Warehouse design and ETL development practices.
+The project follows the **Medallion Architecture** approach using Bronze, Silver, and Gold layers, which is widely adopted in modern data engineering and analytics platforms.
 
 ---
 
 # 🏗️ Data Architecture
 
-The project follows the **Medallion Architecture**, which organizes data into three layers:
+The project follows a three-layer Medallion Architecture.
 
 ![Data Architecture](docs/Data_Architecture.jpg)
 
 ## Bronze Layer
 
-The Bronze Layer serves as the raw data repository.
+The Bronze Layer stores raw data exactly as received from source systems.
 
 ### Purpose
 
-* Store source data without modifications.
-* Preserve original ERP and CRM records.
-* Maintain a single source of truth.
-* Support future auditing and troubleshooting.
+* Preserve original source data.
+* Maintain a historical copy of imported datasets.
+* Enable traceability and auditing.
+* Serve as the foundation for downstream transformations.
 
 ### Data Sources
 
-* CRM System Data
-* ERP System Data
+* CRM Data
+* ERP Data
 
 ### Characteristics
 
-* Raw CSV files loaded directly into SQL Server.
-* No business logic applied.
-* No data cleansing performed.
-* Data stored exactly as received from source systems.
+* Raw CSV ingestion.
+* No transformations applied.
+* No data quality corrections.
+* Source data stored as-is.
 
 ---
 
 ## Silver Layer
 
-The Silver Layer is responsible for transforming raw data into a clean and standardized format.
+The Silver Layer focuses on data cleansing, standardization, and transformation.
 
 ### Purpose
 
 * Improve data quality.
-* Standardize data formats.
 * Remove inconsistencies.
-* Prepare data for analytical modeling.
+* Standardize formats.
+* Prepare data for business analysis.
 
-### Data Processing Activities
+### Transformations Performed
 
-* Data cleansing
-* Handling null values
-* Removing duplicates
-* Correcting invalid records
-* Standardizing dates
-* Standardizing text fields
-* Business rule implementation
+* Duplicate removal
+* Null value handling
 * Data validation
+* Standardization of text values
+* Date formatting
+* Business rule implementation
 
-### Benefits
+### Outcome
 
-* Improved data consistency
-* Better data quality
-* Reliable analytical outputs
-* Reduced reporting errors
+Clean, reliable, and analytics-ready datasets.
 
 ---
 
 ## Gold Layer
 
-The Gold Layer contains business-ready data optimized for analytics and reporting.
+The Gold Layer contains business-ready data models optimized for reporting and analytics.
 
 ### Purpose
 
-* Support business intelligence solutions
-* Enable efficient reporting
-* Provide analytical datasets
-* Improve query performance
+* Support analytical workloads.
+* Enable business intelligence reporting.
+* Provide a simplified view of organizational data.
 
 ### Characteristics
 
-* Star schema design
-* Fact tables
-* Dimension tables
-* Business-focused structure
-
-### Business Value
-
-* Faster reporting
-* Simplified analytics
-* Better business insights
-* Enhanced decision-making
+* Star Schema Design
+* Fact Tables
+* Dimension Tables
+* Analytical Data Models
 
 ---
 
@@ -103,48 +90,46 @@ This project consists of four major phases:
 
 ## 1. Data Architecture Design
 
-Designed a scalable warehouse architecture based on Medallion Architecture principles.
+Designed a scalable warehouse architecture based on Medallion principles.
 
 Activities included:
 
-* Defining Bronze, Silver, and Gold layers
-* Designing data flow processes
-* Establishing naming conventions
-* Creating architecture diagrams
+* Defining Bronze, Silver, and Gold layers.
+* Designing data flows.
+* Creating architecture diagrams.
+* Establishing naming conventions.
 
 ---
 
-## 2. ETL Development
+## 2. ETL Pipeline Development
 
-Built ETL processes to move data through the warehouse layers.
+Built ETL processes to move data through each warehouse layer.
 
 ### Extract
 
-* Read ERP CSV files
-* Read CRM CSV files
+* Read ERP source files.
+* Read CRM source files.
 
 ### Transform
 
-* Clean data
-* Validate records
-* Standardize formats
-* Apply business rules
+* Clean data.
+* Validate records.
+* Standardize values.
+* Apply business rules.
 
 ### Load
 
-* Load into Bronze Layer
-* Transform into Silver Layer
-* Populate Gold Layer
+* Load into Bronze Layer.
+* Transform into Silver Layer.
+* Populate Gold Layer.
 
 ---
 
 ## 3. Data Modeling
 
-Developed an analytical data model using dimensional modeling principles.
+Developed dimensional models optimized for analytical workloads.
 
 ### Dimension Tables
-
-Examples include:
 
 * Customer Dimension
 * Product Dimension
@@ -152,29 +137,81 @@ Examples include:
 
 ### Fact Tables
 
-Examples include:
-
 * Sales Fact Table
 
 ### Benefits
 
 * Faster analytical queries
-* Improved reporting performance
+* Better reporting performance
 * Simplified business analysis
 
 ---
 
 ## 4. Analytics & Reporting
 
-Created SQL-based analytics capable of generating business insights.
+Generated SQL-based analytics to answer key business questions and support decision-making.
 
-### Analysis Areas
+Analysis areas include:
 
 * Customer behavior
 * Product performance
-* Sales performance
-* Revenue trends
-* Business growth patterns
+* Sales trends
+* Revenue analysis
+* Business performance tracking
+
+---
+
+# ⚙️ ETL Workflow
+
+```text
+ERP Source Files + CRM Source Files
+                │
+                ▼
+        Bronze Layer
+      (Raw Data Storage)
+                │
+                ▼
+        Silver Layer
+   (Data Cleansing & Standardization)
+                │
+                ▼
+         Gold Layer
+    (Star Schema & Analytics)
+                │
+                ▼
+    Reports & Business Insights
+```
+
+---
+
+# 📊 Data Model
+
+The Gold Layer follows a dimensional modeling approach using a Star Schema.
+
+## Dimension Tables
+
+Dimension tables provide descriptive business information.
+
+Examples:
+
+* dim_customers
+* dim_products
+* dim_dates
+
+## Fact Tables
+
+Fact tables contain measurable business events.
+
+Examples:
+
+* fact_sales
+
+### Benefits of Star Schema
+
+* Simplified reporting
+* Improved query performance
+* Better analytical capabilities
+* Easier business understanding
 
 ---
 
@@ -183,105 +220,11 @@ Created SQL-based analytics capable of generating business insights.
 The primary objectives of this project were:
 
 * Build a modern SQL Server Data Warehouse.
-* Consolidate multiple source systems into one analytical platform.
-* Improve data quality through cleansing and standardization.
+* Integrate ERP and CRM datasets.
+* Improve data quality through transformations.
 * Implement dimensional modeling techniques.
-* Enable business reporting and analytics.
-* Demonstrate real-world data engineering skills.
-
----
-
-# ⚙️ ETL Process
-
-The ETL workflow follows a structured pipeline.
-
-## Step 1: Source Data Collection
-
-Data is collected from:
-
-* ERP System
-* CRM System
-
-Both datasets are provided as CSV files.
-
-↓
-
-## Step 2: Bronze Layer Loading
-
-Raw files are loaded directly into SQL Server.
-
-Activities:
-
-* File ingestion
-* Data storage
-* Source preservation
-
-↓
-
-## Step 3: Silver Layer Transformation
-
-Data quality improvements are performed.
-
-Activities:
-
-* Data cleansing
-* Duplicate removal
-* Null handling
-* Format standardization
-* Validation checks
-
-↓
-
-## Step 4: Gold Layer Modeling
-
-Business-ready analytical models are created.
-
-Activities:
-
-* Dimension creation
-* Fact table creation
-* Star schema implementation
-
-↓
-
-## Step 5: Reporting & Analytics
-
-Business insights are generated through SQL queries and reports.
-
----
-
-# 📊 Data Model
-
-The Gold Layer follows a dimensional modeling approach.
-
-## Star Schema Design
-
-The model consists of:
-
-### Dimension Tables
-
-Dimension tables provide descriptive business information.
-
-Examples:
-
-* Customer Dimension
-* Product Dimension
-* Date Dimension
-
-### Fact Tables
-
-Fact tables store measurable business events.
-
-Examples:
-
-* Sales Fact Table
-
-### Benefits of Star Schema
-
-* Simplified reporting
-* Faster query execution
-* Better analytical performance
-* Easy business understanding
+* Enable analytical reporting.
+* Demonstrate practical data engineering skills.
 
 ---
 
@@ -301,8 +244,6 @@ Examples:
 
 # 🎯 Skills Demonstrated
 
-This project demonstrates proficiency in:
-
 ### Data Engineering
 
 * ETL Development
@@ -315,7 +256,7 @@ This project demonstrates proficiency in:
 * Data Loading
 * Data Cleansing
 * Data Transformation
-* Analytical Querying
+* Query Optimization
 
 ### Data Warehousing
 
@@ -334,7 +275,7 @@ This project demonstrates proficiency in:
 
 # 📈 Business Questions Addressed
 
-This warehouse can answer business questions such as:
+This warehouse supports analysis such as:
 
 ### Customer Analysis
 
@@ -344,20 +285,20 @@ This warehouse can answer business questions such as:
 
 ### Product Analysis
 
-* Which products sell the most?
-* Which products generate the highest profit?
+* Which products are top-performing?
+* Which products generate the highest revenue?
 * Which products underperform?
 
 ### Sales Analysis
 
 * What are the monthly sales trends?
-* Which periods have the highest revenue?
-* How is sales performance changing over time?
+* Which periods generate the highest revenue?
+* How is sales performance evolving?
 
 ### Business Performance
 
-* What drives business growth?
-* Which segments contribute most to revenue?
+* Which segments drive growth?
+* What factors influence revenue performance?
 * Where are improvement opportunities?
 
 ---
@@ -381,7 +322,7 @@ data-warehouse-project/
 │
 ├── scripts/                            # SQL scripts for ETL and transformations
 │   ├── bronze/                         # Raw data ingestion scripts
-│   ├── silver/                         # Data cleansing scripts
+│   ├── silver/                         # Data cleansing and transformation scripts
 │   └── gold/                           # Analytical model scripts
 │
 ├── tests/                              # Data quality and validation tests
@@ -400,10 +341,10 @@ Potential future enhancements include:
 
 * Incremental data loading
 * Historical data tracking
-* Data quality dashboards
-* Power BI integration
+* Power BI dashboards
 * Automated ETL scheduling
-* Cloud migration (Azure / Fabric)
+* Data quality monitoring
+* Cloud deployment using Azure or Microsoft Fabric
 
 ---
 
